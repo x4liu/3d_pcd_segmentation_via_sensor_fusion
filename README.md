@@ -1,1 +1,2 @@
-# 3d_pcd_segmentation_via_sensor_fusion
+# 3D point cloud object segmentation based on sensor fusion and 2D mask guidance
+
