@@ -1,2 +1,5 @@
 supervisely.env
 **/__pycache__/
+tutorial_data/input_pcd.png
+tutorial_data/input_pcd_masked.png
+tutorial_data/input_pcd_masked_filtered.png
