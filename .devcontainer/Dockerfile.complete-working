@@ -1,0 +1,57 @@
+FROM python:3.10-slim
+
+# Install system dependencies including OpenGL libraries
+RUN apt-get update && apt-get install -y \
+    gcc g++ git \
+    libgl1 \
+    libglu1-mesa \
+    libgl1-mesa-dri \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender1 \
+    libgomp1 \
+    libgstreamer1.0-0 \
+    libgtk-3-0 \
+    libmagic1 \
+    libdrm2 \
+    libxcb-dri3-0 \
+    libxcb-present0 \
+    libxcb-sync1 \
+    libxcb-xfixes0 \
+    libxshmfence1 \
+    libxxf86vm1 \
+    mesa-libgallium \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python packages with compatible versions
+RUN pip install --upgrade pip
+
+# Install core packages first with specific versions to avoid conflicts
+RUN pip install numpy==1.24.3
+RUN pip install python-json-logger==2.0.7
+RUN pip install stack-data==0.6.2
+RUN pip install executing==1.2.0
+RUN pip install importlib_resources
+
+# Install OpenCV with headless version (no GUI dependencies)
+RUN pip install opencv-python-headless==4.8.0.74
+
+# Install supervisely and its dependencies
+RUN pip install supervisely==6.73.435
+
+# Install scientific computing packages
+RUN pip install scipy
+
+# Install visualization and notebook packages
+RUN pip install jupyter matplotlib pillow python-dotenv
+RUN pip install open3d plotly kaleido jsonschema
+
+# Set working directory
+WORKDIR /workspace
+
+# Expose Jupyter port
+EXPOSE 8888
+
+# Default command to start Jupyter
+CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--NotebookApp.token=mytoken123"]
